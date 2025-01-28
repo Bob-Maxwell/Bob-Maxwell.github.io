@@ -15,68 +15,24 @@
         <guid>https://Bob-Maxwell.github.io/p/introduction-to-robotics/</guid>
         <description>&lt;img src="https://Bob-Maxwell.github.io/p/introduction-to-robotics/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Introduction to robotics" /&gt;
 &lt;h2 id=&#34;manipulator-kinematics&#34;&gt;Manipulator kinematics
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes1.png&#34;
-	width=&#34;1128&#34;
-	height=&#34;767&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes1_hu_3f66e362eefabc0b.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes1_hu_e7c23f3cce4b7fa1.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and twist $\alpha$.&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;147&#34;
-		data-flex-basis=&#34;352px&#34;
-	
-&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes2.png&#34;
-	width=&#34;1343&#34;
-	height=&#34;848&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes2_hu_5d77cd5e4c3bbc7a.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes2_hu_cf1edf106b32198.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;The link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;158&#34;
-		data-flex-basis=&#34;380px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;We abstract the two rotating cylinder pairs at the end of the connecting rod into two lines, so we only need four parameters to characterize the transformation relationship between the two lines.&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\alpha$. Moreover, the link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.&lt;/p&gt;
+&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;two-joint-axes1.png&#34; width=&#34;48%&#34;&gt;
+  &lt;img src=&#34;two-joint-axes2.png&#34; width=&#34;51%&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;In a word, if we abstract the two rotating pairs at the end of the connecting rod into two lines, then only four parameters are needed to characterize the transformation relationship between the two lines:&lt;/p&gt;
 &lt;center&gt;
 &lt;p&gt;$a_{i-1}$ = the distance from $\hat{Z}_{i-1}$ to $\hat{Z}_i$ measured along $\hat{X}_i$;&lt;/p&gt;
 &lt;p&gt;$\alpha_{i-1}$ = the angle from $\hat{Z}_{i-1}$ to $\hat{Z}_i$ measured about $\hat{X}_i$;&lt;/p&gt;
 &lt;p&gt;$d_i$ = the distance from $\hat{X}_{i-1}$ to $\hat{X}_i$ measured along $\hat{Z}_i$;&lt;/p&gt;
 &lt;p&gt;$\theta_i$ = the angle from $\hat{X}_{i-1}$ to $\hat{X}_i$ measured about $\hat{Z}_i$.&lt;/p&gt;
 &lt;/center&gt;
-&lt;p&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes3.png&#34;
-	width=&#34;1256&#34;
-	height=&#34;837&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes3_hu_389bab2d506fd7e8.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes3_hu_e6b57777386a71f7.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;Link frames are attached so that frame {i} is attached to link i.&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;150&#34;
-		data-flex-basis=&#34;360px&#34;
-	
-&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes4.png&#34;
-	width=&#34;1204&#34;
-	height=&#34;811&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes4_hu_e0e659dfc7ab38b2.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/two-joint-axes4_hu_804563d33f57fc59.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;Location of intermediate frames {P}, {Q} and {R}.&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;148&#34;
-		data-flex-basis=&#34;356px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;By defining a frame for each link, we have broken the kinematics problem into $n$ subproblems. In order to solve each of these subproblems, namely $T_i^{i-1}$, we will further break each subproblem into four subsubproblems. Each of these four transformations will be a function of one link parameter only and will be simple enough that we can write down its form by inspection, i.e.&lt;/p&gt;
+&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;two-joint-axes3.png&#34; width=&#34;50%&#34;&gt;
+  &lt;img src=&#34;two-joint-axes4.png&#34; width=&#34;49%&#34;&gt;
+&lt;/div&gt;
+&lt;!-- ![Link frames are attached so that frame {i} is attached to link i.](two-joint-axes3.png)![Location of intermediate frames {P}, {Q} and {R}.](two-joint-axes4.png) --&gt;
+&lt;p&gt;By defining a frame for each link, we have broken the kinematics problem into $n$ subproblems. In order to solve each of these subproblems, namely $T_i^{i-1}$, we will further break each subproblem into four subsubproblems. Each of these four transformations will be a function of one link parameter only and will be simple enough that we can write down its form by inspection:&lt;/p&gt;
 $$
 \begin{equation*}
   \begin{aligned}
@@ -101,39 +57,70 @@ $$
 $$&lt;h2 id=&#34;inverse-manipulator-kinematics&#34;&gt;Inverse Manipulator kinematics
 &lt;/h2&gt;&lt;!-- In this chapter, we investigate the more difficult converse problem: Given the desired position and orientation of the tool relative to the station, how do we compute the set of joint angles which will achieve this desired result? --&gt;
 &lt;h2 id=&#34;jacobians-velocities-and-static-forces&#34;&gt;Jacobians: velocities and static forces
-&lt;/h2&gt;&lt;p&gt;For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then&lt;/p&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;linear-and-roatational-velocity-of-rigid-bodies&#34;&gt;Linear and roatational velocity of rigid bodies
+&lt;/h3&gt;&lt;p&gt;For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then&lt;/p&gt;
 $$
 \begin{equation*}
   \begin{aligned}
-    ^AV_Q &amp;= \frac{^A\text{d}}{\text{d}t}(^AX_Q) = \frac{^A\text{d}}{\text{d}t}(^AX_B+^BX_Q) \\
-    &amp;= \frac{^A\text{d}}{\text{d}t}(^AX_B) + \frac{^B\text{d}}{\text{d}t}(R_B^A~ ^BX_Q) \\
+    ^AV_Q &amp;= \frac{^A\text{d}}{\text{d}t}(^AX_Q) = \frac{^A\text{d}}{\text{d}t}(^AX_B+^{B(A)}X_Q) \\
+    &amp;= \frac{^A\text{d}}{\text{d}t}(^AX_B) + \frac{^B\text{d}}{\text{d}t}~ ^BX_Q R_B^A \\
     &amp;= ^AV_{BORG} + R_B^A~ ^BV_Q
   \end{aligned}
 \end{equation*}
-$$&lt;p&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity1.png&#34;
-	width=&#34;1152&#34;
-	height=&#34;748&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity1_hu_2de857e8ae1d4325.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity1_hu_443341a76cd7d9ab.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;154&#34;
-		data-flex-basis=&#34;369px&#34;
-	
-&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity2.png&#34;
-	width=&#34;1013&#34;
-	height=&#34;695&#34;
-	srcset=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity2_hu_30e91373d19eade9.png 480w, https://Bob-Maxwell.github.io/p/introduction-to-robotics/velocity2_hu_6b4c5c88d1d47b12.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;145&#34;
-		data-flex-basis=&#34;349px&#34;
-	
-&gt;&lt;/p&gt;
-</description>
+$$&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;linear.png&#34; width=&#34;47%&#34;&gt;
+  &lt;img src=&#34;angular.png&#34; width=&#34;51%&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;For rotational velocity, let&amp;rsquo;s consider the vector $Q$ is constant as viewed from frame {$B$} first, then point $Q$ will have a velocity as seen from {$A$} due to the rotational velocity $^A\Omega_B$, i.e.&lt;/p&gt;
+$$
+  ^AV_Q = ^A\Omega_B \times ^AQ
+$$&lt;p&gt;In the general case, the vector $Q$ could also be changing with respect to frame {$B$}, thus&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^AV_Q &amp;= ^A(^BV_Q) + ^A\Omega_B \times ^AQ \\
+    &amp;= R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
+  \end{aligned}
+\end{equation*}
+$$&lt;p&gt;Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:&lt;/p&gt;
+$$
+  ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
+$$&lt;h3 id=&#34;velocity-propagation-from-link-to-link&#34;&gt;Velocity &amp;ldquo;propagation&amp;rdquo; from link to link
+&lt;/h3&gt;&lt;p&gt;The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^i\omega_{i+1} &amp;= ^i\omega_i + R_{i+1}^i \dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &amp;= ^i\omega_i + R_{i+1}^i~ ^{i+1}
+    \begin{bmatrix}
+      0\\
+      0\\
+      \dot{\theta}_{i+1}\\
+    \end{bmatrix}
+  \end{aligned}
+\end{equation*}
+$$&lt;p&gt;By premultiplying both sides by $R_i^{i+1}$, we can find the description of the angular velocity of link $i+1$ with respect to frame {$i+1$}:&lt;/p&gt;
+$$
+  ^{i+1}\omega_{i+1} = R_i^{i+1}~ ^i\omega_{i+1} = R_i^{i+1}~ ^i\omega_i + \dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;velocity1.png&#34; width=&#34;49%&#34;&gt;
+  &lt;img src=&#34;velocity2.png&#34; width=&#34;50%&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;The linear velocity of the origin of frame {$i+1$} is the same as that of the origin of frame {$i$} plus a new component caused by rotational velocity of link $i$, so we have&lt;/p&gt;
+$$
+  ^iv_{i+1} = ^iv_i + ^i\omega_i \times ^iP_{i+1}
+$$&lt;p&gt;Premultiplying both sides by $R_i^{i+1}$, we compute&lt;/p&gt;
+$$
+  ^{i+1}v_{i+1} = R_i^{i+1}~ ^iv_{i+1} = R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1})
+$$&lt;p&gt;The corresponding relationships for the case that joint $i+1$ is prismatic are&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^{i+1}\omega_{i+1} &amp;= R_i^{i+1}~ ^i\omega_i \\
+    ^{i+1}v_{i+1} &amp;= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
+  \end{aligned}
+\end{equation*}
+$$</description>
         </item>
         <item>
         <title>Archives</title>
@@ -205,14 +192,6 @@ $$&lt;p&gt;&lt;img src=&#34;https://Bob-Maxwell.github.io/p/introduction-to-robo
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;image&lt;/code&gt; field accepts both local and external images.&lt;/p&gt;
 </description>
-        </item>
-        <item>
-        <title>Search</title>
-        <link>https://Bob-Maxwell.github.io/search/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://Bob-Maxwell.github.io/search/</guid>
-        <description></description>
         </item>
         
     </channel>

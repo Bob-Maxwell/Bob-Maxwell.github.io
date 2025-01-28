@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Manipulator kinematics We abstract the two rotating cylinder pairs at the end of the connecting rod into two lines, so we only need four parameters to characterize the transformation relationship between the two lines.\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Manipulator kinematics The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\\alpha$. Moreover, the link offset $d$ and the joint angle $\\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.\nIn a word, if we abstract the two rotating pairs at the end of the connecting rod into two lines, then only four parameters are needed to characterize the transformation relationship between the two lines:\n">
 <title>Introduction to robotics</title>
 
 <link rel='canonical' href='https://Bob-Maxwell.github.io/p/introduction-to-robotics/'>
 
 <link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Introduction to robotics">
-<meta property='og:description' content="Manipulator kinematics We abstract the two rotating cylinder pairs at the end of the connecting rod into two lines, so we only need four parameters to characterize the transformation relationship between the two lines.\n">
+<meta property='og:description' content="Manipulator kinematics The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\\alpha$. Moreover, the link offset $d$ and the joint angle $\\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.\nIn a word, if we abstract the two rotating pairs at the end of the connecting rod into two lines, then only four parameters are needed to characterize the transformation relationship between the two lines:\n">
 <meta property='og:url' content='https://Bob-Maxwell.github.io/p/introduction-to-robotics/'>
 <meta property='og:site_name' content='Learning Notes'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-01-26T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-01-26T00:00:00&#43;00:00'/><meta property='og:image' content='https://Bob-Maxwell.github.io/p/introduction-to-robotics/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg' />
 <meta name="twitter:title" content="Introduction to robotics">
-<meta name="twitter:description" content="Manipulator kinematics We abstract the two rotating cylinder pairs at the end of the connecting rod into two lines, so we only need four parameters to characterize the transformation relationship between the two lines.\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Manipulator kinematics The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\\alpha$. Moreover, the link offset $d$ and the joint angle $\\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.\nIn a word, if we abstract the two rotating pairs at the end of the connecting rod into two lines, then only four parameters are needed to characterize the transformation relationship between the two lines:\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://Bob-Maxwell.github.io/p/introduction-to-robotics/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg' />
     </head>
     <body class="
@@ -137,25 +137,6 @@
         
         
         <li >
-            <a href='/search/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-                
-                <span>Search</span>
-            </a>
-        </li>
-        
-        
-        <li >
             <a href='/links/' >
                 
                 
@@ -226,7 +207,12 @@
   <ol>
     <li><a href="#manipulator-kinematics">Manipulator kinematics</a></li>
     <li><a href="#inverse-manipulator-kinematics">Inverse Manipulator kinematics</a></li>
-    <li><a href="#jacobians-velocities-and-static-forces">Jacobians: velocities and static forces</a></li>
+    <li><a href="#jacobians-velocities-and-static-forces">Jacobians: velocities and static forces</a>
+      <ol>
+        <li><a href="#linear-and-roatational-velocity-of-rigid-bodies">Linear and roatational velocity of rigid bodies</a></li>
+        <li><a href="#velocity-propagation-from-link-to-link">Velocity &ldquo;propagation&rdquo; from link to link</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -307,7 +293,7 @@
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    3 minute read
                 </time>
             </div>
         
@@ -324,68 +310,24 @@
     
     
 <h2 id="manipulator-kinematics">Manipulator kinematics
-</h2><p><img src="/p/introduction-to-robotics/two-joint-axes1.png"
-	width="1128"
-	height="767"
-	srcset="/p/introduction-to-robotics/two-joint-axes1_hu_3f66e362eefabc0b.png 480w, /p/introduction-to-robotics/two-joint-axes1_hu_e7c23f3cce4b7fa1.png 1024w"
-	loading="lazy"
-	
-		alt="The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and twist $\alpha$."
-	
-	
-		class="gallery-image" 
-		data-flex-grow="147"
-		data-flex-basis="352px"
-	
-><img src="/p/introduction-to-robotics/two-joint-axes2.png"
-	width="1343"
-	height="848"
-	srcset="/p/introduction-to-robotics/two-joint-axes2_hu_5d77cd5e4c3bbc7a.png 480w, /p/introduction-to-robotics/two-joint-axes2_hu_cf1edf106b32198.png 1024w"
-	loading="lazy"
-	
-		alt="The link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links."
-	
-	
-		class="gallery-image" 
-		data-flex-grow="158"
-		data-flex-basis="380px"
-	
-></p>
-<p>We abstract the two rotating cylinder pairs at the end of the connecting rod into two lines, so we only need four parameters to characterize the transformation relationship between the two lines.</p>
+</h2><p>The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\alpha$. Moreover, the link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.</p>
+<div align="center">
+  <img src="two-joint-axes1.png" width="48%">
+  <img src="two-joint-axes2.png" width="51%">
+</div>
+<p>In a word, if we abstract the two rotating pairs at the end of the connecting rod into two lines, then only four parameters are needed to characterize the transformation relationship between the two lines:</p>
 <center>
 <p>$a_{i-1}$ = the distance from $\hat{Z}_{i-1}$ to $\hat{Z}_i$ measured along $\hat{X}_i$;</p>
 <p>$\alpha_{i-1}$ = the angle from $\hat{Z}_{i-1}$ to $\hat{Z}_i$ measured about $\hat{X}_i$;</p>
 <p>$d_i$ = the distance from $\hat{X}_{i-1}$ to $\hat{X}_i$ measured along $\hat{Z}_i$;</p>
 <p>$\theta_i$ = the angle from $\hat{X}_{i-1}$ to $\hat{X}_i$ measured about $\hat{Z}_i$.</p>
 </center>
-<p><img src="/p/introduction-to-robotics/two-joint-axes3.png"
-	width="1256"
-	height="837"
-	srcset="/p/introduction-to-robotics/two-joint-axes3_hu_389bab2d506fd7e8.png 480w, /p/introduction-to-robotics/two-joint-axes3_hu_e6b57777386a71f7.png 1024w"
-	loading="lazy"
-	
-		alt="Link frames are attached so that frame {i} is attached to link i."
-	
-	
-		class="gallery-image" 
-		data-flex-grow="150"
-		data-flex-basis="360px"
-	
-><img src="/p/introduction-to-robotics/two-joint-axes4.png"
-	width="1204"
-	height="811"
-	srcset="/p/introduction-to-robotics/two-joint-axes4_hu_e0e659dfc7ab38b2.png 480w, /p/introduction-to-robotics/two-joint-axes4_hu_804563d33f57fc59.png 1024w"
-	loading="lazy"
-	
-		alt="Location of intermediate frames {P}, {Q} and {R}."
-	
-	
-		class="gallery-image" 
-		data-flex-grow="148"
-		data-flex-basis="356px"
-	
-></p>
-<p>By defining a frame for each link, we have broken the kinematics problem into $n$ subproblems. In order to solve each of these subproblems, namely $T_i^{i-1}$, we will further break each subproblem into four subsubproblems. Each of these four transformations will be a function of one link parameter only and will be simple enough that we can write down its form by inspection, i.e.</p>
+<div align="center">
+  <img src="two-joint-axes3.png" width="50%">
+  <img src="two-joint-axes4.png" width="49%">
+</div>
+<!-- ![Link frames are attached so that frame {i} is attached to link i.](two-joint-axes3.png)![Location of intermediate frames {P}, {Q} and {R}.](two-joint-axes4.png) -->
+<p>By defining a frame for each link, we have broken the kinematics problem into $n$ subproblems. In order to solve each of these subproblems, namely $T_i^{i-1}$, we will further break each subproblem into four subsubproblems. Each of these four transformations will be a function of one link parameter only and will be simple enough that we can write down its form by inspection:</p>
 $$
 \begin{equation*}
   \begin{aligned}
@@ -410,39 +352,70 @@ $$
 $$<h2 id="inverse-manipulator-kinematics">Inverse Manipulator kinematics
 </h2><!-- In this chapter, we investigate the more difficult converse problem: Given the desired position and orientation of the tool relative to the station, how do we compute the set of joint angles which will achieve this desired result? -->
 <h2 id="jacobians-velocities-and-static-forces">Jacobians: velocities and static forces
-</h2><p>For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then</p>
+</h2><h3 id="linear-and-roatational-velocity-of-rigid-bodies">Linear and roatational velocity of rigid bodies
+</h3><p>For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then</p>
 $$
 \begin{equation*}
   \begin{aligned}
-    ^AV_Q &= \frac{^A\text{d}}{\text{d}t}(^AX_Q) = \frac{^A\text{d}}{\text{d}t}(^AX_B+^BX_Q) \\
-    &= \frac{^A\text{d}}{\text{d}t}(^AX_B) + \frac{^B\text{d}}{\text{d}t}(R_B^A~ ^BX_Q) \\
+    ^AV_Q &= \frac{^A\text{d}}{\text{d}t}(^AX_Q) = \frac{^A\text{d}}{\text{d}t}(^AX_B+^{B(A)}X_Q) \\
+    &= \frac{^A\text{d}}{\text{d}t}(^AX_B) + \frac{^B\text{d}}{\text{d}t}~ ^BX_Q R_B^A \\
     &= ^AV_{BORG} + R_B^A~ ^BV_Q
   \end{aligned}
 \end{equation*}
-$$<p><img src="/p/introduction-to-robotics/velocity1.png"
-	width="1152"
-	height="748"
-	srcset="/p/introduction-to-robotics/velocity1_hu_2de857e8ae1d4325.png 480w, /p/introduction-to-robotics/velocity1_hu_443341a76cd7d9ab.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="154"
-		data-flex-basis="369px"
-	
-><img src="/p/introduction-to-robotics/velocity2.png"
-	width="1013"
-	height="695"
-	srcset="/p/introduction-to-robotics/velocity2_hu_30e91373d19eade9.png 480w, /p/introduction-to-robotics/velocity2_hu_6b4c5c88d1d47b12.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="145"
-		data-flex-basis="349px"
-	
-></p>
-
+$$<div align="center">
+  <img src="linear.png" width="47%">
+  <img src="angular.png" width="51%">
+</div>
+<p>For rotational velocity, let&rsquo;s consider the vector $Q$ is constant as viewed from frame {$B$} first, then point $Q$ will have a velocity as seen from {$A$} due to the rotational velocity $^A\Omega_B$, i.e.</p>
+$$
+  ^AV_Q = ^A\Omega_B \times ^AQ
+$$<p>In the general case, the vector $Q$ could also be changing with respect to frame {$B$}, thus</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^AV_Q &= ^A(^BV_Q) + ^A\Omega_B \times ^AQ \\
+    &= R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
+  \end{aligned}
+\end{equation*}
+$$<p>Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:</p>
+$$
+  ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
+$$<h3 id="velocity-propagation-from-link-to-link">Velocity &ldquo;propagation&rdquo; from link to link
+</h3><p>The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^i\omega_{i+1} &= ^i\omega_i + R_{i+1}^i \dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &= ^i\omega_i + R_{i+1}^i~ ^{i+1}
+    \begin{bmatrix}
+      0\\
+      0\\
+      \dot{\theta}_{i+1}\\
+    \end{bmatrix}
+  \end{aligned}
+\end{equation*}
+$$<p>By premultiplying both sides by $R_i^{i+1}$, we can find the description of the angular velocity of link $i+1$ with respect to frame {$i+1$}:</p>
+$$
+  ^{i+1}\omega_{i+1} = R_i^{i+1}~ ^i\omega_{i+1} = R_i^{i+1}~ ^i\omega_i + \dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$<div align="center">
+  <img src="velocity1.png" width="49%">
+  <img src="velocity2.png" width="50%">
+</div>
+<p>The linear velocity of the origin of frame {$i+1$} is the same as that of the origin of frame {$i$} plus a new component caused by rotational velocity of link $i$, so we have</p>
+$$
+  ^iv_{i+1} = ^iv_i + ^i\omega_i \times ^iP_{i+1}
+$$<p>Premultiplying both sides by $R_i^{i+1}$, we compute</p>
+$$
+  ^{i+1}v_{i+1} = R_i^{i+1}~ ^iv_{i+1} = R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1})
+$$<p>The corresponding relationships for the case that joint $i+1$ is prismatic are</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^{i+1}\omega_{i+1} &= R_i^{i+1}~ ^i\omega_i \\
+    ^{i+1}v_{i+1} &= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
+  \end{aligned}
+\end{equation*}
+$$
 </section>
 
 
