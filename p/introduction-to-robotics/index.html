@@ -135,25 +135,6 @@
             </a>
         </li>
         
-        
-        <li >
-            <a href='/links/' >
-                
-                
-                
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
-  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
-</svg>
-
-
-
-                
-                <span>Links</span>
-            </a>
-        </li>
-        
         <li class="menu-bottom-section">
             <ol class="menu">
 
@@ -209,8 +190,9 @@
     <li><a href="#inverse-manipulator-kinematics">Inverse Manipulator kinematics</a></li>
     <li><a href="#jacobians-velocities-and-static-forces">Jacobians: velocities and static forces</a>
       <ol>
-        <li><a href="#linear-and-roatational-velocity-of-rigid-bodies">Linear and roatational velocity of rigid bodies</a></li>
-        <li><a href="#velocity-propagation-from-link-to-link">Velocity &ldquo;propagation&rdquo; from link to link</a></li>
+        <li><a href="#velocity-of-rigid-bodies">Velocity of rigid bodies</a></li>
+        <li><a href="#velocity-propagation-between-links">Velocity propagation between links</a></li>
+        <li><a href="#jacobians-changing-a-jacobians-frame-of-reference-and-singularities">Jacobians, changing a Jacobian&rsquo;s frame of reference and Singularities</a></li>
       </ol>
     </li>
   </ol>
@@ -293,7 +275,7 @@
 
 
                 <time class="article-time--reading">
-                    3 minute read
+                    4 minute read
                 </time>
             </div>
         
@@ -352,7 +334,7 @@ $$
 $$<h2 id="inverse-manipulator-kinematics">Inverse Manipulator kinematics
 </h2><!-- In this chapter, we investigate the more difficult converse problem: Given the desired position and orientation of the tool relative to the station, how do we compute the set of joint angles which will achieve this desired result? -->
 <h2 id="jacobians-velocities-and-static-forces">Jacobians: velocities and static forces
-</h2><h3 id="linear-and-roatational-velocity-of-rigid-bodies">Linear and roatational velocity of rigid bodies
+</h2><h3 id="velocity-of-rigid-bodies">Velocity of rigid bodies
 </h3><p>For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then</p>
 $$
 \begin{equation*}
@@ -380,7 +362,7 @@ $$
 $$<p>Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:</p>
 $$
   ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
-$$<h3 id="velocity-propagation-from-link-to-link">Velocity &ldquo;propagation&rdquo; from link to link
+$$<h3 id="velocity-propagation-between-links">Velocity propagation between links
 </h3><p>The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as</p>
 $$
 \begin{equation*}
@@ -415,6 +397,29 @@ $$
     ^{i+1}v_{i+1} &= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
   \end{aligned}
 \end{equation*}
+$$<h3 id="jacobians-changing-a-jacobians-frame-of-reference-and-singularities">Jacobians, changing a Jacobian&rsquo;s frame of reference and Singularities
+</h3><p>In the field of robotics, we generally use Jacobians that relate joint velocities to Cartesian velocities of the tip of the arm, for example</p>
+$$
+  ^0\nu = ^0J(\Theta)\dot{\Theta}
+$$<p>where $\Theta$ is the vector of joint angles of the manipulator and $v$ is a vector of Cartesian velocities.</p>
+<p>Given a Jacobian written in frame {$B$}, we might be interested in giving an expression ofr the Jacobian in another frame {$A$}, that is</p>
+$$
+  ^AJ(\Theta)\dot{\Theta} = \begin{bmatrix}
+      ^Av\\
+      ^A\omega\\
+    \end{bmatrix}
+  = \begin{bmatrix}
+    R_B^A & 0\\
+    0 & R_B^A\\
+  \end{bmatrix}
+  \begin{bmatrix}
+    ^Bv\\
+    ^B\omega\\
+  \end{bmatrix}
+  = \begin{bmatrix}
+    R_B^A & 0\\
+    0 & R_B^A\\
+  \end{bmatrix}~ ^BJ(\Theta)\dot{\Theta}
 $$
 </section>
 

@@ -57,7 +57,7 @@ $$
 $$&lt;h2 id=&#34;inverse-manipulator-kinematics&#34;&gt;Inverse Manipulator kinematics
 &lt;/h2&gt;&lt;!-- In this chapter, we investigate the more difficult converse problem: Given the desired position and orientation of the tool relative to the station, how do we compute the set of joint angles which will achieve this desired result? --&gt;
 &lt;h2 id=&#34;jacobians-velocities-and-static-forces&#34;&gt;Jacobians: velocities and static forces
-&lt;/h2&gt;&lt;h3 id=&#34;linear-and-roatational-velocity-of-rigid-bodies&#34;&gt;Linear and roatational velocity of rigid bodies
+&lt;/h2&gt;&lt;h3 id=&#34;velocity-of-rigid-bodies&#34;&gt;Velocity of rigid bodies
 &lt;/h3&gt;&lt;p&gt;For linear velocity, assume {$A$} be the fixed frame, {$B$} be the frame attached to a rigid body, and we wish to describe the motion of $^BQ$ relative to frame {$A$}, then&lt;/p&gt;
 $$
 \begin{equation*}
@@ -85,7 +85,7 @@ $$
 $$&lt;p&gt;Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:&lt;/p&gt;
 $$
   ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
-$$&lt;h3 id=&#34;velocity-propagation-from-link-to-link&#34;&gt;Velocity &amp;ldquo;propagation&amp;rdquo; from link to link
+$$&lt;h3 id=&#34;velocity-propagation-between-links&#34;&gt;Velocity propagation between links
 &lt;/h3&gt;&lt;p&gt;The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as&lt;/p&gt;
 $$
 \begin{equation*}
@@ -120,6 +120,29 @@ $$
     ^{i+1}v_{i+1} &amp;= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
   \end{aligned}
 \end{equation*}
+$$&lt;h3 id=&#34;jacobians-changing-a-jacobians-frame-of-reference-and-singularities&#34;&gt;Jacobians, changing a Jacobian&amp;rsquo;s frame of reference and Singularities
+&lt;/h3&gt;&lt;p&gt;In the field of robotics, we generally use Jacobians that relate joint velocities to Cartesian velocities of the tip of the arm, for example&lt;/p&gt;
+$$
+  ^0\nu = ^0J(\Theta)\dot{\Theta}
+$$&lt;p&gt;where $\Theta$ is the vector of joint angles of the manipulator and $v$ is a vector of Cartesian velocities.&lt;/p&gt;
+&lt;p&gt;Given a Jacobian written in frame {$B$}, we might be interested in giving an expression ofr the Jacobian in another frame {$A$}, that is&lt;/p&gt;
+$$
+  ^AJ(\Theta)\dot{\Theta} = \begin{bmatrix}
+      ^Av\\
+      ^A\omega\\
+    \end{bmatrix}
+  = \begin{bmatrix}
+    R_B^A &amp; 0\\
+    0 &amp; R_B^A\\
+  \end{bmatrix}
+  \begin{bmatrix}
+    ^Bv\\
+    ^B\omega\\
+  \end{bmatrix}
+  = \begin{bmatrix}
+    R_B^A &amp; 0\\
+    0 &amp; R_B^A\\
+  \end{bmatrix}~ ^BJ(\Theta)\dot{\Theta}
 $$</description>
         </item>
         
