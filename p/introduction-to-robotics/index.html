@@ -192,9 +192,12 @@
       <ol>
         <li><a href="#velocity-of-rigid-bodies">Velocity of rigid bodies</a></li>
         <li><a href="#velocity-propagation-between-links">Velocity propagation between links</a></li>
-        <li><a href="#jacobians-changing-a-jacobians-frame-of-reference-and-singularities">Jacobians, changing a Jacobian&rsquo;s frame of reference and Singularities</a></li>
+        <li><a href="#jacobians-and-changing-a-jacobians-frame-of-reference">Jacobians and changing a Jacobian&rsquo;s frame of reference</a></li>
+        <li><a href="#static-forces-in-manipulators-and-jacobians-in-the-force-domain">Static forces in manipulators and Jacobians in the force domain</a></li>
+        <li><a href="#cartesian-transformation-of-velocities-and-static-forces">Cartesian transformation of velocities and static forces</a></li>
       </ol>
     </li>
+    <li><a href="#manipulator-dynamics">Manipulator dynamics</a></li>
   </ol>
 </nav>
         </div>
@@ -275,7 +278,7 @@
 
 
                 <time class="article-time--reading">
-                    4 minute read
+                    5 minute read
                 </time>
             </div>
         
@@ -397,11 +400,14 @@ $$
     ^{i+1}v_{i+1} &= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
   \end{aligned}
 \end{equation*}
-$$<h3 id="jacobians-changing-a-jacobians-frame-of-reference-and-singularities">Jacobians, changing a Jacobian&rsquo;s frame of reference and Singularities
+$$<h3 id="jacobians-and-changing-a-jacobians-frame-of-reference">Jacobians and changing a Jacobian&rsquo;s frame of reference
 </h3><p>In the field of robotics, we generally use Jacobians that relate joint velocities to Cartesian velocities of the tip of the arm, for example</p>
 $$
-  ^0\nu = ^0J(\Theta)\dot{\Theta}
-$$<p>where $\Theta$ is the vector of joint angles of the manipulator and $v$ is a vector of Cartesian velocities.</p>
+  ^0\nu = \begin{bmatrix}
+    ^0v\\
+    ^0\omega\\
+  \end{bmatrix} = ^0J(\Theta)\dot{\Theta}
+$$<p>where $\Theta$ is the vector of joint angles of the manipulator and $\nu$ is a vector of Cartesian velocities.</p>
 <p>Given a Jacobian written in frame {$B$}, we might be interested in giving an expression ofr the Jacobian in another frame {$A$}, that is</p>
 $$
   ^AJ(\Theta)\dot{\Theta} = \begin{bmatrix}
@@ -420,7 +426,67 @@ $$
     R_B^A & 0\\
     0 & R_B^A\\
   \end{bmatrix}~ ^BJ(\Theta)\dot{\Theta}
+$$<h3 id="static-forces-in-manipulators-and-jacobians-in-the-force-domain">Static forces in manipulators and Jacobians in the force domain
+</h3><p>We will use our usual convention for assigning frames to links. Figure below shows the static forces and moments (excluding the gravity force) acting on link $i$. Summing the forces and setting them equal to zero, we have</p>
 $$
+  ^if_i - ^if_{i+1} = 0
+$$<p>Summing torques about the origin of frame {$i$}, we have</p>
+$$
+  ^in_i - ^in_{i+1} - ^iP_{i+1}\times ^if_{i+1} = 0
+$$<div align="center">
+  <img src="static force-moment balance.png" width="50%">
+</div>
+<p>To find the joint torque required to maintain the static equilibrium, the dot product of the joint-axis vector with the moment vector acting on the link is computed:</p>
+$$
+  \tau_i = ^in_i^T~ ^i\hat{Z}_i
+$$<p>In case that joint $i$ is prismatic, we compute the joint actuator force as</p>
+$$
+  \tau_i = ^if_i^T~ ^i\hat{Z}_i
+$$<p>The principle of virtual work allows us to make certain statements about the static case by allowing the amount of this displacement to go to an infinitesimal, that is</p>
+$$
+  \tau\cdot\delta\Theta = \mathcal{F}\cdot\delta\chi
+$$<p>where $\mathcal{F}$ is a 6$\times$1 Cartesian force-moment vector acting at the end-effector, $\delta\chi$ is a 6$\times$1 infinitesimal Cartesian displacement of the end- effector, $\tau$ is a 6$\times$1 vector of torques at the joints, and $\delta\Theta$ is a 6$\times$1 vector of infinitesimal joint displacements. Based on the definition of the Jacobian, we have</p>
+$$
+  \tau^T\cdot\delta\Theta = \mathcal{F}^T\cdot\delta\chi = \mathcal{F}^T\cdot J\delta\Theta
+$$<h3 id="cartesian-transformation-of-velocities-and-static-forces">Cartesian transformation of velocities and static forces
+</h3><p>Assume the two frames here are rigidly connected, then we have the velocity transformation:</p>
+$$
+  \begin{bmatrix}
+    ^Bv_B\\
+    ^B\omega_B\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_A^B & -R_A^B~ ^AP_{BORG}\times\\
+    0 & R_A^B\\
+  \end{bmatrix}\begin{bmatrix}
+    ^Av_A\\
+    ^A\omega_A\\
+  \end{bmatrix}
+$$<p>we can invert this equation:</p>
+$$
+  \begin{bmatrix}
+    ^Av_A\\
+    ^A\omega_A\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_B^A & ^AP_{BORG}\times R_B^A\\
+    0 & R_B^A\\
+  \end{bmatrix}\begin{bmatrix}
+    ^Bv_B\\
+    ^B\omega_B\\
+  \end{bmatrix}
+$$<p>Similarly, we can write the force-moment transformation:</p>
+$$
+  \begin{bmatrix}
+    ^AF_A\\
+    ^AN_A\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_B^A & 0\\
+    ^AP_{BORG}\times R_B^A & R_B^A\\
+  \end{bmatrix}\begin{bmatrix}
+    ^BF_B\\
+    ^BN_B\\
+  \end{bmatrix}
+$$<h2 id="manipulator-dynamics">Manipulator dynamics
+</h2>
 </section>
 
 

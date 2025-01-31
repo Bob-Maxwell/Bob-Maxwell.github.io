@@ -120,11 +120,14 @@ $$
     ^{i+1}v_{i+1} &amp;= R_i^{i+1} (^iv_i + ^i\omega_i \times ^iP_{i+1}) + \dot{d}_{i+1} ^{i+1}\hat{Z}_{i+1}
   \end{aligned}
 \end{equation*}
-$$&lt;h3 id=&#34;jacobians-changing-a-jacobians-frame-of-reference-and-singularities&#34;&gt;Jacobians, changing a Jacobian&amp;rsquo;s frame of reference and Singularities
+$$&lt;h3 id=&#34;jacobians-and-changing-a-jacobians-frame-of-reference&#34;&gt;Jacobians and changing a Jacobian&amp;rsquo;s frame of reference
 &lt;/h3&gt;&lt;p&gt;In the field of robotics, we generally use Jacobians that relate joint velocities to Cartesian velocities of the tip of the arm, for example&lt;/p&gt;
 $$
-  ^0\nu = ^0J(\Theta)\dot{\Theta}
-$$&lt;p&gt;where $\Theta$ is the vector of joint angles of the manipulator and $v$ is a vector of Cartesian velocities.&lt;/p&gt;
+  ^0\nu = \begin{bmatrix}
+    ^0v\\
+    ^0\omega\\
+  \end{bmatrix} = ^0J(\Theta)\dot{\Theta}
+$$&lt;p&gt;where $\Theta$ is the vector of joint angles of the manipulator and $\nu$ is a vector of Cartesian velocities.&lt;/p&gt;
 &lt;p&gt;Given a Jacobian written in frame {$B$}, we might be interested in giving an expression ofr the Jacobian in another frame {$A$}, that is&lt;/p&gt;
 $$
   ^AJ(\Theta)\dot{\Theta} = \begin{bmatrix}
@@ -143,7 +146,67 @@ $$
     R_B^A &amp; 0\\
     0 &amp; R_B^A\\
   \end{bmatrix}~ ^BJ(\Theta)\dot{\Theta}
-$$</description>
+$$&lt;h3 id=&#34;static-forces-in-manipulators-and-jacobians-in-the-force-domain&#34;&gt;Static forces in manipulators and Jacobians in the force domain
+&lt;/h3&gt;&lt;p&gt;We will use our usual convention for assigning frames to links. Figure below shows the static forces and moments (excluding the gravity force) acting on link $i$. Summing the forces and setting them equal to zero, we have&lt;/p&gt;
+$$
+  ^if_i - ^if_{i+1} = 0
+$$&lt;p&gt;Summing torques about the origin of frame {$i$}, we have&lt;/p&gt;
+$$
+  ^in_i - ^in_{i+1} - ^iP_{i+1}\times ^if_{i+1} = 0
+$$&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;static force-moment balance.png&#34; width=&#34;50%&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;To find the joint torque required to maintain the static equilibrium, the dot product of the joint-axis vector with the moment vector acting on the link is computed:&lt;/p&gt;
+$$
+  \tau_i = ^in_i^T~ ^i\hat{Z}_i
+$$&lt;p&gt;In case that joint $i$ is prismatic, we compute the joint actuator force as&lt;/p&gt;
+$$
+  \tau_i = ^if_i^T~ ^i\hat{Z}_i
+$$&lt;p&gt;The principle of virtual work allows us to make certain statements about the static case by allowing the amount of this displacement to go to an infinitesimal, that is&lt;/p&gt;
+$$
+  \tau\cdot\delta\Theta = \mathcal{F}\cdot\delta\chi
+$$&lt;p&gt;where $\mathcal{F}$ is a 6$\times$1 Cartesian force-moment vector acting at the end-effector, $\delta\chi$ is a 6$\times$1 infinitesimal Cartesian displacement of the end- effector, $\tau$ is a 6$\times$1 vector of torques at the joints, and $\delta\Theta$ is a 6$\times$1 vector of infinitesimal joint displacements. Based on the definition of the Jacobian, we have&lt;/p&gt;
+$$
+  \tau^T\cdot\delta\Theta = \mathcal{F}^T\cdot\delta\chi = \mathcal{F}^T\cdot J\delta\Theta
+$$&lt;h3 id=&#34;cartesian-transformation-of-velocities-and-static-forces&#34;&gt;Cartesian transformation of velocities and static forces
+&lt;/h3&gt;&lt;p&gt;Assume the two frames here are rigidly connected, then we have the velocity transformation:&lt;/p&gt;
+$$
+  \begin{bmatrix}
+    ^Bv_B\\
+    ^B\omega_B\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_A^B &amp; -R_A^B~ ^AP_{BORG}\times\\
+    0 &amp; R_A^B\\
+  \end{bmatrix}\begin{bmatrix}
+    ^Av_A\\
+    ^A\omega_A\\
+  \end{bmatrix}
+$$&lt;p&gt;we can invert this equation:&lt;/p&gt;
+$$
+  \begin{bmatrix}
+    ^Av_A\\
+    ^A\omega_A\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_B^A &amp; ^AP_{BORG}\times R_B^A\\
+    0 &amp; R_B^A\\
+  \end{bmatrix}\begin{bmatrix}
+    ^Bv_B\\
+    ^B\omega_B\\
+  \end{bmatrix}
+$$&lt;p&gt;Similarly, we can write the force-moment transformation:&lt;/p&gt;
+$$
+  \begin{bmatrix}
+    ^AF_A\\
+    ^AN_A\\
+  \end{bmatrix} = \begin{bmatrix}
+    R_B^A &amp; 0\\
+    ^AP_{BORG}\times R_B^A &amp; R_B^A\\
+  \end{bmatrix}\begin{bmatrix}
+    ^BF_B\\
+    ^BN_B\\
+  \end{bmatrix}
+$$&lt;h2 id=&#34;manipulator-dynamics&#34;&gt;Manipulator dynamics
+&lt;/h2&gt;</description>
         </item>
         <item>
         <title>Archives</title>
