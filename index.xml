@@ -206,7 +206,38 @@ $$
     ^BN_B\\
   \end{bmatrix}
 $$&lt;h2 id=&#34;manipulator-dynamics&#34;&gt;Manipulator dynamics
-&lt;/h2&gt;</description>
+&lt;/h2&gt;&lt;h3 id=&#34;acceleration-of-a-rigid-body&#34;&gt;Acceleration of a rigid body
+&lt;/h3&gt;&lt;p&gt;The following equation describes the velocity of a vector $^BQ$ as seen from frame {$A$} when the origins are coincident:&lt;/p&gt;
+$$
+  \dot{R}_B^A~ ^BQ + R_B^A~ ^BV_Q = \frac{\text{d}}{\text{d}t}(R_B^A~ ^BQ) = ^AV_Q = R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ
+$$&lt;p&gt;Differentiat it, we get&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^A\dot{V}_Q &amp;= \frac{\text{d}}{\text{d}t}(R_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times \frac{\text{d}}{\text{d}t}(R_B^A~ ^BQ) \\
+    &amp;= (R_B^A~ ^B\dot{V}_Q + \dot{R}_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ) \\
+    &amp;= (R_B^A~ ^B\dot{V}_Q + ^A\Omega_B\times R_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ) \\
+    &amp;= R_B^A~ ^B\dot{V}_Q + 2 ^A\Omega_B\times R_B^A~ ^BV_Q + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+  \end{aligned}
+\end{equation*}
+$$&lt;p&gt;Finally, to generalize to the case in which the origins are not coincident, we add one term which gives the linear acceleration of the origin of {$B$}:&lt;/p&gt;
+$$
+  ^A\dot{V}_{BORG} + R_B^A~ ^B\dot{V}_Q + 2 ^A\Omega_B\times R_B^A~ ^BV_Q + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+$$&lt;p&gt;A particular case that is worth pointing out is when $^BQ$ is constant, or $^BV_Q = ^B\dot{V}_Q = 0$. In this case, the equation simplifies to&lt;/p&gt;
+$$
+  ^A\dot{V}_Q = ^A\dot{V}_{BORG} + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+$$&lt;p&gt;Consider the case in which {$B$} is rotating relative to {$A$} with $^A\Omega_B$ and {$C$} is rotating relative to {$B$} with $^B\Omega_C$, then&lt;/p&gt;
+$$
+  ^A\Omega_C = ^A\Omega_B + R_B^A~ ^B\Omega_C
+$$&lt;p&gt;By differentiating, we obtain&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^A\dot{\Omega}_C &amp;= ^A\dot{\Omega}_B + \frac{\text{d}}{\text{d}t}(R_B^A~ ^B\Omega_C) \\
+    &amp;= ^A\dot{\Omega}_B + ^A\Omega_B\times R_B^A~ ^B\Omega_C + R_B^A~ ^B\dot{\Omega}_C
+  \end{aligned}
+\end{equation*}
+$$</description>
         </item>
         <item>
         <title>Archives</title>

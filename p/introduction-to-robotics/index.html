@@ -197,7 +197,11 @@
         <li><a href="#cartesian-transformation-of-velocities-and-static-forces">Cartesian transformation of velocities and static forces</a></li>
       </ol>
     </li>
-    <li><a href="#manipulator-dynamics">Manipulator dynamics</a></li>
+    <li><a href="#manipulator-dynamics">Manipulator dynamics</a>
+      <ol>
+        <li><a href="#acceleration-of-a-rigid-body">Acceleration of a rigid body</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -278,7 +282,7 @@
 
 
                 <time class="article-time--reading">
-                    5 minute read
+                    7 minute read
                 </time>
             </div>
         
@@ -486,7 +490,38 @@ $$
     ^BN_B\\
   \end{bmatrix}
 $$<h2 id="manipulator-dynamics">Manipulator dynamics
-</h2>
+</h2><h3 id="acceleration-of-a-rigid-body">Acceleration of a rigid body
+</h3><p>The following equation describes the velocity of a vector $^BQ$ as seen from frame {$A$} when the origins are coincident:</p>
+$$
+  \dot{R}_B^A~ ^BQ + R_B^A~ ^BV_Q = \frac{\text{d}}{\text{d}t}(R_B^A~ ^BQ) = ^AV_Q = R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ
+$$<p>Differentiat it, we get</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^A\dot{V}_Q &= \frac{\text{d}}{\text{d}t}(R_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times \frac{\text{d}}{\text{d}t}(R_B^A~ ^BQ) \\
+    &= (R_B^A~ ^B\dot{V}_Q + \dot{R}_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ) \\
+    &= (R_B^A~ ^B\dot{V}_Q + ^A\Omega_B\times R_B^A~ ^BV_Q) + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (R_B^A~ ^BV_Q + ^A\Omega_B\times R_B^A~ ^BQ) \\
+    &= R_B^A~ ^B\dot{V}_Q + 2 ^A\Omega_B\times R_B^A~ ^BV_Q + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+  \end{aligned}
+\end{equation*}
+$$<p>Finally, to generalize to the case in which the origins are not coincident, we add one term which gives the linear acceleration of the origin of {$B$}:</p>
+$$
+  ^A\dot{V}_{BORG} + R_B^A~ ^B\dot{V}_Q + 2 ^A\Omega_B\times R_B^A~ ^BV_Q + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+$$<p>A particular case that is worth pointing out is when $^BQ$ is constant, or $^BV_Q = ^B\dot{V}_Q = 0$. In this case, the equation simplifies to</p>
+$$
+  ^A\dot{V}_Q = ^A\dot{V}_{BORG} + ^A\dot{\Omega}_B\times R_B^A~ ^BQ + ^A\Omega_B\times (^A\Omega_B\times R_B^A~ ^BQ)
+$$<p>Consider the case in which {$B$} is rotating relative to {$A$} with $^A\Omega_B$ and {$C$} is rotating relative to {$B$} with $^B\Omega_C$, then</p>
+$$
+  ^A\Omega_C = ^A\Omega_B + R_B^A~ ^B\Omega_C
+$$<p>By differentiating, we obtain</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^A\dot{\Omega}_C &= ^A\dot{\Omega}_B + \frac{\text{d}}{\text{d}t}(R_B^A~ ^B\Omega_C) \\
+    &= ^A\dot{\Omega}_B + ^A\Omega_B\times R_B^A~ ^B\Omega_C + R_B^A~ ^B\dot{\Omega}_C
+  \end{aligned}
+\end{equation*}
+$$
 </section>
 
 
