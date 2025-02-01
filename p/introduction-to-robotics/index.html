@@ -206,7 +206,13 @@
       </ol>
     </li>
     <li><a href="#trajectory-generation">Trajectory generation</a></li>
-    <li><a href="#linear-control-of-manipulators">Linear control of manipulators</a></li>
+    <li><a href="#linear-control-of-manipulators">Linear control of manipulators</a>
+      <ol>
+        <li><a href="#control-of-second-order-systems">Control of second-order systems</a></li>
+        <li><a href="#control-law-partitioning">Control-law partitioning</a></li>
+        <li><a href="#trajectory-following-control">Trajectory-following control</a></li>
+      </ol>
+    </li>
     <li><a href="#nonlinear-control-of-manipulators">Nonlinear control of manipulators</a></li>
     <li><a href="#force-control-of-manipulators">Force control of manipulators</a></li>
   </ol>
@@ -289,7 +295,7 @@
 
 
                 <time class="article-time--reading">
-                    11 minute read
+                    12 minute read
                 </time>
             </div>
         
@@ -633,6 +639,36 @@ $$<h2 id="trajectory-generation">Trajectory generation
 </h2><p>Armed with the previous material, we now have the means to calculate joint-position time histories that correspond to desired end-effector motions through space. We wish to cause the manipulator joints to follow prescribed position trajectories, but the actuators are commanded in terms of torque, so we must use some kind of control system to compute appropriate actuator commands that will realize this desired motion. Almost always, these torques are determined by using feedback from the joint sensors to compute the torque required.</p>
 <div align="center">
   <img src="robot control system.png" width="70%">
+</div>
+<h3 id="control-of-second-order-systems">Control of second-order systems
+</h3><p>Let&rsquo;s assume that we have sensors capable of detecting the block&rsquo;s position and velocity. We now propose a control law which computes the force that should be applied by the actuator as a function of the sensed feedback:</p>
+$$
+  f = -k_px - k_v\dot{x}
+$$<p>By equating the open-loop dynamics equation with the control law, we can derive the closed-loop dynamics as</p>
+$$
+  m\ddot{x} + (b+k_v)\dot{x} + (k+k_p)x = 0
+$$<p>It&rsquo;s clear that by setting the control gains $k_v$ and $k_v$, we can cause the closed-loop system to appear to have any second system behabior that we wish.</p>
+<div align="center">
+  <img src="closed-loop control.png" width="60%">
+</div>
+<h3 id="control-law-partitioning">Control-law partitioning
+</h3><p>In preparation for designing control laws for more complicated systems, let&rsquo;s partition the controller into a model-based portion and a servo portion. In this method, $\alpha$ and $\beta$ are chosen so that the system appears to be a unit mass:</p>
+$$
+  m\ddot{x} + b\dot{x} + kx = \alpha f' + \beta = m(-k_v\dot{x}-k_px) + (b\dot{x} + kx)
+$$<p>Under this methodology, the setting of the control gains $k_v$ and $k_p$ is simple and is independent of the system parameters $b$ and $k$.</p>
+<div align="center">
+  <img src="partitioned control method.png" width="70%">
+</div>
+<h3 id="trajectory-following-control">Trajectory-following control
+</h3><p>Rather than just maintaining the block at a desired location, let us enhance our controller so that the block can be made to follow a trajectory. The trajectory is given by a function of time, $x_d(t)$, that specifies the desired position of the block. We define the servo error between the desired and actual trajectory as $e = x_d - x$. A servo-control law that will cause trajectory following is</p>
+$$
+  m\ddot{x} + b\dot{x} + kx = \alpha f' + \beta = m(\ddot{x}_d + k_v\dot{e} + k_pe) + (b\dot{x} + kx)
+$$<p>which leads to</p>
+$$
+  \ddot{e} + k_v\dot{e} + k_pe = 0
+$$<p>This is a second-order differential equation for which we can choose the coefficients so we can design any response we wish.</p>
+<div align="center">
+  <img src="trajectory-following controller.png" width="75%">
 </div>
 <h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
 </h2><h2 id="force-control-of-manipulators">Force control of manipulators
