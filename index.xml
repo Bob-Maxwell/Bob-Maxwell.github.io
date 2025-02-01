@@ -85,7 +85,7 @@ $$
 $$&lt;p&gt;Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:&lt;/p&gt;
 $$
   ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
-$$&lt;h3 id=&#34;velocity-propagation-between-links&#34;&gt;Velocity propagation between links
+$$&lt;h3 id=&#34;link-to-link-velocity-propagation&#34;&gt;Link-to-link velocity propagation
 &lt;/h3&gt;&lt;p&gt;The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as&lt;/p&gt;
 $$
 \begin{equation*}
@@ -237,7 +237,45 @@ $$
     &amp;= ^A\dot{\Omega}_B + ^A\Omega_B\times R_B^A~ ^B\Omega_C + R_B^A~ ^B\dot{\Omega}_C
   \end{aligned}
 \end{equation*}
-$$</description>
+$$&lt;h3 id=&#34;newtons-and-eulers-equation&#34;&gt;Newton&amp;rsquo;s and Euler&amp;rsquo;s equation
+&lt;/h3&gt;&lt;p&gt;The figure below shows a rigid body rotating with angular velocity $\omega$ and with angular acceleration $\dot{\omega}$. In such a situation, the moment $N$, which must be acting on the body to cause this motion, is given by Euler&amp;rsquo;s equation:&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    N &amp;= \dot{I}\cdot\omega + I\cdot\dot{\omega} \\
+    &amp;= \frac{\text{d}}{\text{d}t}\big(\sum_i\sum_j I_{ij}e_ie_j\big)\cdot\omega + I\cdot\dot{\omega} \\
+    &amp;= \sum_i\sum_j I_{ij}(\dot{e}_ie_j + e_i\dot{e}_j)\cdot\omega + I\cdot\dot{\omega} \\
+    &amp;= \sum_i\sum_j I_{ij}\big((\omega\times e_i)e_j - e_i(e_j\times\omega) \big)\cdot\omega + I\cdot\dot{\omega} \\
+    &amp;= (\omega\times I)\cdot\omega - (I\times\omega)\cdot\omega + I\cdot\dot{\omega} \\
+    &amp;= (\omega\times I)\cdot\omega + I\cdot\dot{\omega}
+  \end{aligned}
+\end{equation*}
+$$&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;Euler&#39;s equation.png&#34; width=&#34;50%&#34;&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;iterative-newton-euler-dynamic-formulation&#34;&gt;Iterative Newton-Euler dynamic formulation
+&lt;/h3&gt;&lt;p&gt;We now consider the problem of computing the torques that correspond to a given trajectory of a manipulator. We assume we know the position, velocity, and acceleration of the joints, $(\Theta,\dot{\Theta}, \ddot{\Theta})$. With this knowledge, and with knowledge of the kinematics and the mass-distribution information of a robot, we can calculate the joint torques required to cause this motion.&lt;/p&gt;
+&lt;h4 id=&#34;outward-iterations-to-compute-velocities-and-accelerations&#34;&gt;Outward iterations to compute velocities and accelerations
+&lt;/h4&gt;&lt;p&gt;The &amp;ldquo;propagation&amp;rdquo; of rotational velocity from link to link is given by&lt;/p&gt;
+$$
+  ^i\omega_{i+1} = ^i\omega_i + R_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$&lt;p&gt;By differentiating, we obtain&lt;/p&gt;
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^i\dot{\omega}_{i+1} &amp;= ^i\dot{\omega}_i + \dot{R}_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &amp;= ^i\dot{\omega}_i + ^i\Omega_{i+1}\times R_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &amp;= ^i\dot{\omega}_i + ^i\omega_i\times\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+  \end{aligned}
+\end{equation*}
+$$&lt;p&gt;By premultiplying both sides by $R_i^{i+1}$, we obtain the equation for transforming angular acceleration from one link to the next:&lt;/p&gt;
+$$
+  ^{i+1}\dot{\omega}_{i+1} = R_i^{i+1}~ ^i\dot{\omega}_i + R_i^{i+1}~ ^i\omega_i\times\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + \ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$&lt;h2 id=&#34;trajectory-generation&#34;&gt;Trajectory generation
+&lt;/h2&gt;&lt;h2 id=&#34;linear-control-of-manipulators&#34;&gt;Linear control of manipulators
+&lt;/h2&gt;&lt;h2 id=&#34;nonlinear-control-of-manipulators&#34;&gt;Nonlinear control of manipulators
+&lt;/h2&gt;&lt;h2 id=&#34;force-control-of-manipulators&#34;&gt;Force control of manipulators
+&lt;/h2&gt;</description>
         </item>
         <item>
         <title>Archives</title>

@@ -191,7 +191,7 @@
     <li><a href="#jacobians-velocities-and-static-forces">Jacobians: velocities and static forces</a>
       <ol>
         <li><a href="#velocity-of-rigid-bodies">Velocity of rigid bodies</a></li>
-        <li><a href="#velocity-propagation-between-links">Velocity propagation between links</a></li>
+        <li><a href="#link-to-link-velocity-propagation">Link-to-link velocity propagation</a></li>
         <li><a href="#jacobians-and-changing-a-jacobians-frame-of-reference">Jacobians and changing a Jacobian&rsquo;s frame of reference</a></li>
         <li><a href="#static-forces-in-manipulators-and-jacobians-in-the-force-domain">Static forces in manipulators and Jacobians in the force domain</a></li>
         <li><a href="#cartesian-transformation-of-velocities-and-static-forces">Cartesian transformation of velocities and static forces</a></li>
@@ -200,8 +200,14 @@
     <li><a href="#manipulator-dynamics">Manipulator dynamics</a>
       <ol>
         <li><a href="#acceleration-of-a-rigid-body">Acceleration of a rigid body</a></li>
+        <li><a href="#newtons-and-eulers-equation">Newton&rsquo;s and Euler&rsquo;s equation</a></li>
+        <li><a href="#iterative-newton-euler-dynamic-formulation">Iterative Newton-Euler dynamic formulation</a></li>
       </ol>
     </li>
+    <li><a href="#trajectory-generation">Trajectory generation</a></li>
+    <li><a href="#linear-control-of-manipulators">Linear control of manipulators</a></li>
+    <li><a href="#nonlinear-control-of-manipulators">Nonlinear control of manipulators</a></li>
+    <li><a href="#force-control-of-manipulators">Force control of manipulators</a></li>
   </ol>
 </nav>
         </div>
@@ -282,7 +288,7 @@
 
 
                 <time class="article-time--reading">
-                    7 minute read
+                    8 minute read
                 </time>
             </div>
         
@@ -369,7 +375,7 @@ $$
 $$<p>Consider linear and rotational velocity simultaneously, we can easily get the derivative of a vector in a moving frame as seen from a stationary frame:</p>
 $$
   ^AV_Q = ^AV_{BORG} + R_B^A~ ^BV_Q + ^A\Omega_B \times R_B^A~ ^BQ
-$$<h3 id="velocity-propagation-between-links">Velocity propagation between links
+$$<h3 id="link-to-link-velocity-propagation">Link-to-link velocity propagation
 </h3><p>The angular velocity of link $i+1$ is the same as that of link $i$ plus a new component caused by rotational velocity at joint $i+1$. This can be written in terms of frame {$i$} as</p>
 $$
 \begin{equation*}
@@ -521,7 +527,45 @@ $$
     &= ^A\dot{\Omega}_B + ^A\Omega_B\times R_B^A~ ^B\Omega_C + R_B^A~ ^B\dot{\Omega}_C
   \end{aligned}
 \end{equation*}
+$$<h3 id="newtons-and-eulers-equation">Newton&rsquo;s and Euler&rsquo;s equation
+</h3><p>The figure below shows a rigid body rotating with angular velocity $\omega$ and with angular acceleration $\dot{\omega}$. In such a situation, the moment $N$, which must be acting on the body to cause this motion, is given by Euler&rsquo;s equation:</p>
 $$
+\begin{equation*}
+  \begin{aligned}
+    N &= \dot{I}\cdot\omega + I\cdot\dot{\omega} \\
+    &= \frac{\text{d}}{\text{d}t}\big(\sum_i\sum_j I_{ij}e_ie_j\big)\cdot\omega + I\cdot\dot{\omega} \\
+    &= \sum_i\sum_j I_{ij}(\dot{e}_ie_j + e_i\dot{e}_j)\cdot\omega + I\cdot\dot{\omega} \\
+    &= \sum_i\sum_j I_{ij}\big((\omega\times e_i)e_j - e_i(e_j\times\omega) \big)\cdot\omega + I\cdot\dot{\omega} \\
+    &= (\omega\times I)\cdot\omega - (I\times\omega)\cdot\omega + I\cdot\dot{\omega} \\
+    &= (\omega\times I)\cdot\omega + I\cdot\dot{\omega}
+  \end{aligned}
+\end{equation*}
+$$<div align="center">
+  <img src="Euler's equation.png" width="50%">
+</div>
+<h3 id="iterative-newton-euler-dynamic-formulation">Iterative Newton-Euler dynamic formulation
+</h3><p>We now consider the problem of computing the torques that correspond to a given trajectory of a manipulator. We assume we know the position, velocity, and acceleration of the joints, $(\Theta,\dot{\Theta}, \ddot{\Theta})$. With this knowledge, and with knowledge of the kinematics and the mass-distribution information of a robot, we can calculate the joint torques required to cause this motion.</p>
+<h4 id="outward-iterations-to-compute-velocities-and-accelerations">Outward iterations to compute velocities and accelerations
+</h4><p>The &ldquo;propagation&rdquo; of rotational velocity from link to link is given by</p>
+$$
+  ^i\omega_{i+1} = ^i\omega_i + R_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$<p>By differentiating, we obtain</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^i\dot{\omega}_{i+1} &= ^i\dot{\omega}_i + \dot{R}_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &= ^i\dot{\omega}_i + ^i\Omega_{i+1}\times R_{i+1}^i\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} \\
+    &= ^i\dot{\omega}_i + ^i\omega_i\times\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + R_{i+1}^i\ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+  \end{aligned}
+\end{equation*}
+$$<p>By premultiplying both sides by $R_i^{i+1}$, we obtain the equation for transforming angular acceleration from one link to the next:</p>
+$$
+  ^{i+1}\dot{\omega}_{i+1} = R_i^{i+1}~ ^i\dot{\omega}_i + R_i^{i+1}~ ^i\omega_i\times\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + \ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$<h2 id="trajectory-generation">Trajectory generation
+</h2><h2 id="linear-control-of-manipulators">Linear control of manipulators
+</h2><h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
+</h2><h2 id="force-control-of-manipulators">Force control of manipulators
+</h2>
 </section>
 
 
