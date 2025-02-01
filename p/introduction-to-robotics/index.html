@@ -202,6 +202,7 @@
         <li><a href="#acceleration-of-a-rigid-body">Acceleration of a rigid body</a></li>
         <li><a href="#newtons-and-eulers-equation">Newton&rsquo;s and Euler&rsquo;s equation</a></li>
         <li><a href="#iterative-newton-euler-dynamic-formulation">Iterative Newton-Euler dynamic formulation</a></li>
+        <li><a href="#lagrangian-formulation-of-manipulator-dynamics">Lagrangian formulation of manipulator dynamics</a></li>
       </ol>
     </li>
     <li><a href="#trajectory-generation">Trajectory generation</a></li>
@@ -288,7 +289,7 @@
 
 
                 <time class="article-time--reading">
-                    9 minute read
+                    11 minute read
                 </time>
             </div>
         
@@ -583,9 +584,57 @@ $$
     N_i &= ^{C_i}I\dot{\omega}_i + \omega_i\times ^{C_i}I\omega_i
   \end{aligned}
 \end{equation*}
+$$<h4 id="inward-iterations-to-compute-forces-and-torques">Inward iterations to compute forces and torques
+</h4><p>Having computed the forces and torques acting on each link, we now need to calculate the joint torques that will result in these net forces and torques being applied to each link.</p>
+<p>By summing the forces acting on link $i$, we arrive at the force-balance relationship:</p>
+$$
+  ^iF_i = ^if_i - R_{i+1}^i~ ^{i+1}f_{i+1}
+$$<p>By summing torques about the center of mass and setting them equal to zero, we arrive at the torque-balance equation:</p>
+$$
+  ^iN_i = ^in_i - ^in_{i+1} + (-^iP_{C_i})\times ^if_i - (^iP_{i+1}-^iP_{C_i})\times ^if_{i+1}
+$$<p>Finally, we can rearrange the force and torque equations so that they appear as iterative relationships from higher numbered neighbor to lower numbered neighbor:</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    ^if_i &= R_{i+1}^i~ ^{i+1}f_{i+1} + ^iF_i \\
+    ^in_i &= ^iN_i + R_{i+1}^i~ ^{i+1}n_{i+1} + ^iP_{C_i}\times ^iF_i + ^iP_{i+1}\times R_{i+1}^i~ ^{i+1}f_{i+1}
+  \end{aligned}
+\end{equation*}
+$$<p>These equations are evaluated link by link, starting from link $n$ and working inward toward the base of the robot. These inward force iterations are analogous to the static force iterations introduced in Section 3.</p>
+<p>As in the static case, the required joint torques are found by taking the $\hat{Z}$ component of the torque applied by one link on its neighbor:</p>
+$$
+  \tau_i = ^in_i^T~ ^i\hat{Z}_i
+$$<p>For joint $i$ prismatic, we use</p>
+$$
+  \tau_i = ^if_i^T~ ^i\hat{Z}_i
+$$<p>where we have used the symbol $\tau$ for a linear actuator force.</p>
+<div align="center">
+  <img src="balance.png" width="50%">
+</div>
+<h3 id="lagrangian-formulation-of-manipulator-dynamics">Lagrangian formulation of manipulator dynamics
+</h3><p>Whereas the Newton-Euler formulation might be said to be a &ldquo;force balance&rdquo; approach to dynamics, the Lagrangian formulation is an &ldquo;energy-based&rdquo; approach to dynamics.</p>
+<p>We start by developing an expression for the kinetic energy of a manipulator:</p>
+$$
+  k = \sum_{i=1}^n \frac{1}{2}m_i v_{C_i}^T v_{C_i} + \frac{1}{2}^i\omega_i^T~ ^{C_i}I_i~ ^i\omega_i = \frac{1}{2}\dot{\Theta}^T M(\Theta)\dot{\Theta}
+$$<p>The total potential energy stored in the manipulator can be expressed as</p>
+$$
+  u = \sum_i^n -m_i~ ^0g^T~ ^0P_{C_i}
+$$<p>In our notation, the Lagrangian of a manipulator is</p>
+$$
+  \mathcal{L}(\Theta, \dot{\Theta}) = k(\Theta, \dot{\Theta}) - u(\Theta)
+$$<p>The equations of motion for the manipulator are then given by</p>
+$$
+  \frac{\text{d}}{\text{d}t}\frac{\partial\mathcal{L}}{\partial\dot{\Theta}} - \frac{\partial\mathcal{L}}{\partial\Theta} = \tau
+$$<p>where $\tau$ is the $n\times$ 1 vector of actuator torques. In case of a manipulator, this equation becomes</p>
+$$
+  \frac{\text{d}}{\text{d}t}\frac{\partial k}{\partial\dot{\Theta}} - \frac{\partial k}{\partial\Theta} + \frac{\partial u}{\partial\Theta} = \tau
 $$<h2 id="trajectory-generation">Trajectory generation
 </h2><h2 id="linear-control-of-manipulators">Linear control of manipulators
-</h2><h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
+</h2><p>Armed with the previous material, we now have the means to calculate joint-position time histories that correspond to desired end-effector motions through space. We wish to cause the manipulator joints to follow prescribed position trajectories, but the actuators are commanded in terms of torque, so we must use some kind of control system to compute appropriate actuator commands that will realize this desired motion. Almost always, these torques are determined by using feedback from the joint sensors to compute the torque required.</p>
+<div align="center">
+  <img src="robot control system.png" width="70%">
+</div>
+<h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
 </h2><h2 id="force-control-of-manipulators">Force control of manipulators
 </h2>
 </section>
