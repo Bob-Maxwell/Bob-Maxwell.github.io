@@ -288,7 +288,7 @@
 
 
                 <time class="article-time--reading">
-                    8 minute read
+                    9 minute read
                 </time>
             </div>
         
@@ -561,6 +561,28 @@ $$
 $$<p>By premultiplying both sides by $R_i^{i+1}$, we obtain the equation for transforming angular acceleration from one link to the next:</p>
 $$
   ^{i+1}\dot{\omega}_{i+1} = R_i^{i+1}~ ^i\dot{\omega}_i + R_i^{i+1}~ ^i\omega_i\times\dot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + \ddot{\theta}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$<p>When joint $i+1$ is prismatic, this simplifies to</p>
+$$
+  ^{i+1}\dot{\omega}_{i+1} = R_i^{i+1}~ ^i\dot{\omega}_i
+$$<p>The linear acceleration of each link-frame origin is obtained by</p>
+$$
+  ^{i+1}\dot{v}_{i+1} = R_i^{i+1}\big(^i\dot{v}_i + ^i\dot{\omega}_i\times ^iP_{i+1} + ^i\omega_i\times (^i\omega_i\times ^iP_{i+1})\big)
+$$<p>For prismatic joint $i+1$, we have</p>
+$$
+  ^{i+1}\dot{v}_{i+1} = R_i^{i+1}\big(^i\dot{v}_i + ^i\dot{\omega}_i\times ^iP_{i+1} + ^i\omega_i\times (^i\omega_i\times ^iP_{i+1})\big) + 2~ ^{i+1}\omega_{i+1}\times\dot{d}_{i+1}~ ^{i+1}\hat{Z}_{i+1} + \ddot{d}_{i+1}~ ^{i+1}\hat{Z}_{i+1}
+$$<p>We also will need the linear acceleration of the center of mass of each link, which also can be found by</p>
+$$
+  ^i\dot{v}_{C_i} = ^i\dot{\omega}_i\times ^iP_{C_i} + ^i\omega_i\times(^i\omega_i + ^iP_{C_i}) + ^i\dot{v}_i
+$$<p>Here, we imagine a frame {$C_i$} attached to each link, having its origin located at the center of mass of the link and having the same orientation as the link frame {$i$}. The equation above doesn&rsquo;t involve joint motion at all and so is valid for joint $i+1$, regardless of whether it&rsquo;s revolute or prismatic.</p>
+<h4 id="the-force-and-torque-acting-on-a-link">The force and torque acting on a link
+</h4><p>Having computed the linear and angular accelerations of the mass center of each link, we can apply the Newton-Euler equations to compute the inertial force and torque acting at the center of mass of each link. Thus we have</p>
+$$
+\begin{equation*}
+  \begin{aligned}
+    F_i &= m\dot{v}_{C_i} \\
+    N_i &= ^{C_i}I\dot{\omega}_i + \omega_i\times ^{C_i}I\omega_i
+  \end{aligned}
+\end{equation*}
 $$<h2 id="trajectory-generation">Trajectory generation
 </h2><h2 id="linear-control-of-manipulators">Linear control of manipulators
 </h2><h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
