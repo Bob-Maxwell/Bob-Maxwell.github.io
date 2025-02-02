@@ -13,7 +13,7 @@
         <pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate>
         
         <guid>https://Bob-Maxwell.github.io/p/introduction-to-robotics/</guid>
-        <description>&lt;img src="https://Bob-Maxwell.github.io/p/introduction-to-robotics/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Introduction to robotics" /&gt;
+        <description>&lt;img src="https://Bob-Maxwell.github.io/p/introduction-to-robotics/robot-arm.png" alt="Featured image of post Introduction to robotics" /&gt;
 &lt;h2 id=&#34;manipulator-kinematics&#34;&gt;Manipulator kinematics
 &lt;/h2&gt;&lt;p&gt;The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\alpha$. Moreover, the link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.&lt;/p&gt;
 &lt;div align=&#34;center&#34;&gt;
