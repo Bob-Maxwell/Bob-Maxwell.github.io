@@ -211,9 +211,14 @@
         <li><a href="#control-of-second-order-systems">Control of second-order systems</a></li>
         <li><a href="#control-law-partitioning">Control-law partitioning</a></li>
         <li><a href="#trajectory-following-control">Trajectory-following control</a></li>
+        <li><a href="#disturbance-rejection">Disturbance rejection</a></li>
       </ol>
     </li>
-    <li><a href="#nonlinear-control-of-manipulators">Nonlinear control of manipulators</a></li>
+    <li><a href="#nonlinear-control-of-manipulators">Nonlinear control of manipulators</a>
+      <ol>
+        <li><a href="#the-control-problem-for-manipulators">The control problem for manipulators</a></li>
+      </ol>
+    </li>
     <li><a href="#force-control-of-manipulators">Force control of manipulators</a></li>
   </ol>
 </nav>
@@ -295,7 +300,7 @@
 
 
                 <time class="article-time--reading">
-                    12 minute read
+                    14 minute read
                 </time>
             </div>
         
@@ -670,8 +675,42 @@ $$<p>This is a second-order differential equation for which we can choose the co
 <div align="center">
   <img src="trajectory-following controller.png" width="75%">
 </div>
+<h3 id="disturbance-rejection">Disturbance rejection
+</h3><p>One of the purposes of a control system is to provide disturbance rejection, that is, to maintain good performance, or minimize errors even in the presence of some external disturbances or noise. An analysis of our closed-loop system leads to the error equation</p>
+$$
+  \ddot{e} + k_v\dot{e} + k_pe = f_{\text{dist}}/m
+$$<p>If it is known that $f_{\text{dist}}$ is bounded, that is, a constant $a$ exists such that $\max\limits_t f_{\text{dist}}(t)&lt;a$, then the solution of the differential equation $e(t)$ is also bounded. This result is due to a property of stable linear systems known as bounded-input, bounded-output or BIBO stability.</p>
+<div align="center">
+  <img src="trajectory-following control with disturbance.png" width="75%">
+</div>
+<p>When $f_{\text{dist}}$ is a constant, the steady-state equation is $k_p e = f_{\text{dist}}/m$. It is clear that the higher the position gain $k_p$, the smaller will be the steady-state error $e$.</p>
+<p>In order to eliminate steady-state error, a modified control law is sometimes used. The modification involves the addition of an integral term to the control law. The control law becomes</p>
+$$
+  m\ddot{x} + b\dot{x} + kx = \alpha f' + \beta + f_{\text{dist}} = m\big(\ddot{x}_d + k_v\dot{e} + k_pe + k_i\int e\text{d}t\big) + (b\dot{x} + kx) + f_{\text{dist}}
+$$<p>which equals to</p>
+$$
+  \dot{}\ddot{e} + k_v\ddot{e} + k_p\dot{e} + k_ie = \dot{f}_{\text{dist}}/m
+$$<p>then in the steady state, $k_i e = 0$.</p>
 <h2 id="nonlinear-control-of-manipulators">Nonlinear control of manipulators
-</h2><h2 id="force-control-of-manipulators">Force control of manipulators
+</h2><p>In the previous section, we made several approximations to allow a linear analysis of the manipulator-control problem. Most important among these approximations was that each joint could be considered independent and that the inertia &ldquo;seen&rdquo; by each joint actuator was constant. The linear controllers results in nonuniform damping throughout the workspace and other undesirable effects.</p>
+<h3 id="the-control-problem-for-manipulators">The control problem for manipulators
+</h3>$$
+\begin{equation*}
+  \begin{aligned}
+    &M(\Theta)\ddot{\Theta} + V(\Theta,\dot{\Theta}) + G(\Theta) + F(\Theta,\dot{\Theta}) = \tau = \alpha\tau' + \beta \\
+    = &M(\Theta)(\ddot{\Theta}_d + K_v\dot{E} + K_pE) + V(\Theta,\dot{\Theta}) + G(\Theta) + F(\Theta,\dot{\Theta})
+  \end{aligned}
+\end{equation*}
+$$<p>which equals to</p>
+$$
+  \ddot{E} + K_v\dot{E} + K_p E = 0
+$$<p>If this vector equation is decoupled, i.e. the matrices $K_v$ and $K_p$ are diagonal, then the equation above could just as well be written on a joint-by-joint basis as</p>
+$$
+  \ddot{e}_i + k_{vi}\dot{e} + k_{pi} e = 0
+$$<div align="center">
+  <img src="model-based manipultor-control.png" width="80%">
+</div>
+<h2 id="force-control-of-manipulators">Force control of manipulators
 </h2>
 </section>
 

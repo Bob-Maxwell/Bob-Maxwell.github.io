@@ -373,8 +373,42 @@ $$&lt;p&gt;This is a second-order differential equation for which we can choose 
 &lt;div align=&#34;center&#34;&gt;
   &lt;img src=&#34;trajectory-following controller.png&#34; width=&#34;75%&#34;&gt;
 &lt;/div&gt;
+&lt;h3 id=&#34;disturbance-rejection&#34;&gt;Disturbance rejection
+&lt;/h3&gt;&lt;p&gt;One of the purposes of a control system is to provide disturbance rejection, that is, to maintain good performance, or minimize errors even in the presence of some external disturbances or noise. An analysis of our closed-loop system leads to the error equation&lt;/p&gt;
+$$
+  \ddot{e} + k_v\dot{e} + k_pe = f_{\text{dist}}/m
+$$&lt;p&gt;If it is known that $f_{\text{dist}}$ is bounded, that is, a constant $a$ exists such that $\max\limits_t f_{\text{dist}}(t)&amp;lt;a$, then the solution of the differential equation $e(t)$ is also bounded. This result is due to a property of stable linear systems known as bounded-input, bounded-output or BIBO stability.&lt;/p&gt;
+&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;trajectory-following control with disturbance.png&#34; width=&#34;75%&#34;&gt;
+&lt;/div&gt;
+&lt;p&gt;When $f_{\text{dist}}$ is a constant, the steady-state equation is $k_p e = f_{\text{dist}}/m$. It is clear that the higher the position gain $k_p$, the smaller will be the steady-state error $e$.&lt;/p&gt;
+&lt;p&gt;In order to eliminate steady-state error, a modified control law is sometimes used. The modification involves the addition of an integral term to the control law. The control law becomes&lt;/p&gt;
+$$
+  m\ddot{x} + b\dot{x} + kx = \alpha f&#39; + \beta + f_{\text{dist}} = m\big(\ddot{x}_d + k_v\dot{e} + k_pe + k_i\int e\text{d}t\big) + (b\dot{x} + kx) + f_{\text{dist}}
+$$&lt;p&gt;which equals to&lt;/p&gt;
+$$
+  \dot{}\ddot{e} + k_v\ddot{e} + k_p\dot{e} + k_ie = \dot{f}_{\text{dist}}/m
+$$&lt;p&gt;then in the steady state, $k_i e = 0$.&lt;/p&gt;
 &lt;h2 id=&#34;nonlinear-control-of-manipulators&#34;&gt;Nonlinear control of manipulators
-&lt;/h2&gt;&lt;h2 id=&#34;force-control-of-manipulators&#34;&gt;Force control of manipulators
+&lt;/h2&gt;&lt;p&gt;In the previous section, we made several approximations to allow a linear analysis of the manipulator-control problem. Most important among these approximations was that each joint could be considered independent and that the inertia &amp;ldquo;seen&amp;rdquo; by each joint actuator was constant. The linear controllers results in nonuniform damping throughout the workspace and other undesirable effects.&lt;/p&gt;
+&lt;h3 id=&#34;the-control-problem-for-manipulators&#34;&gt;The control problem for manipulators
+&lt;/h3&gt;$$
+\begin{equation*}
+  \begin{aligned}
+    &amp;M(\Theta)\ddot{\Theta} + V(\Theta,\dot{\Theta}) + G(\Theta) + F(\Theta,\dot{\Theta}) = \tau = \alpha\tau&#39; + \beta \\
+    = &amp;M(\Theta)(\ddot{\Theta}_d + K_v\dot{E} + K_pE) + V(\Theta,\dot{\Theta}) + G(\Theta) + F(\Theta,\dot{\Theta})
+  \end{aligned}
+\end{equation*}
+$$&lt;p&gt;which equals to&lt;/p&gt;
+$$
+  \ddot{E} + K_v\dot{E} + K_p E = 0
+$$&lt;p&gt;If this vector equation is decoupled, i.e. the matrices $K_v$ and $K_p$ are diagonal, then the equation above could just as well be written on a joint-by-joint basis as&lt;/p&gt;
+$$
+  \ddot{e}_i + k_{vi}\dot{e} + k_{pi} e = 0
+$$&lt;div align=&#34;center&#34;&gt;
+  &lt;img src=&#34;model-based manipultor-control.png&#34; width=&#34;80%&#34;&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;force-control-of-manipulators&#34;&gt;Force control of manipulators
 &lt;/h2&gt;</description>
         </item>
         <item>
