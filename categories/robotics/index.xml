@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>robotics on Learning Notes</title>
+        <title>robotics on Welcome to my blog</title>
         <link>https://Bob-Maxwell.github.io/categories/robotics/</link>
-        <description>Recent content in robotics on Learning Notes</description>
+        <description>Recent content in robotics on Welcome to my blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Jinghan Cai</copyright>
         <lastBuildDate>Sun, 26 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://Bob-Maxwell.github.io/categories/robotics/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Introduction to robotics</title>
-        <link>https://Bob-Maxwell.github.io/p/introduction-to-robotics/</link>
+        <title>Notes about robotics</title>
+        <link>https://Bob-Maxwell.github.io/p/notes-about-robotics/</link>
         <pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://Bob-Maxwell.github.io/p/introduction-to-robotics/</guid>
-        <description>&lt;img src="https://Bob-Maxwell.github.io/p/introduction-to-robotics/robot-arm.png" alt="Featured image of post Introduction to robotics" /&gt;
+        <guid>https://Bob-Maxwell.github.io/p/notes-about-robotics/</guid>
+        <description>&lt;img src="https://Bob-Maxwell.github.io/p/notes-about-robotics/robot-arm.png" alt="Featured image of post Notes about robotics" /&gt;
 &lt;h2 id=&#34;manipulator-kinematics&#34;&gt;Manipulator kinematics
 &lt;/h2&gt;&lt;p&gt;The kinematic function of a link is to maintain a fixed relationship between the two joint axes. This relationship can be described with the link length $a$ and the twist $\alpha$. Moreover, the link offset $d$ and the joint angle $\theta$ are two parameters that may be used to describe the nature of the connection between neighboring links.&lt;/p&gt;
 &lt;div align=&#34;center&#34;&gt;
